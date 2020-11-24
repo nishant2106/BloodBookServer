@@ -20,15 +20,14 @@ transferRouter.route('/')
     })
 })
 .post(cors.corsWithOptions,(req,res,next) => {
-    const name= req.body.newNurse.name
-    const email= req.body.newNurse.email
-    const mobile= req.body.newNurse.mobile
-    const gender= req.body.newNurse.gender
-    const address= req.body.newNurse.address
-    const joinDate= req.body.newNurse.joinDate
-    console.log(req.body)
-    const sqlInsert ="INSERT INTO Nurse(name,gender,city,mob_no,email,join_date)VALUES(?,?,?,?,?,?);"
-    db.query(sqlInsert,[name,gender,address,mobile,email,joinDate],(err,result)=>{
+    const hId= req.body.hospitalId
+    const reqDate= req.body.requestDate
+    const quantity= req.body.quantity
+    const component= req.body.component
+    const bloodGroup= req.body.bloodGroup
+    const status= req.body.status
+    const sqlInsert ="INSERT INTO Transfer(h_id,t_date,component_name,Qty,blood_grp,status)VALUES(?,?,?,?,?,?);"
+    db.query(sqlInsert,[hId,reqDate,component,quantity,bloodGroup,status],(err,result)=>{
         console.log(result)
         if(err){
             console.log(err)
