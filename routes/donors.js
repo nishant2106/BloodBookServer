@@ -14,9 +14,9 @@ donorRouter.route('/')
     next();
 })
 .get(cors.corsWithOptions,(req,res,next) => {
-    const sqlInsert ="insert into Employee values(8,'admin','1234','Admin');"
+    const sqlInsert ="select * from Donor;"
     db.query(sqlInsert,(err,result)=>{
-        res.send('Inserted')
+        res.send(result)
     })
 })
 .post(cors.corsWithOptions,(req,res,next) => {
