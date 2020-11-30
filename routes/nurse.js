@@ -14,18 +14,10 @@ nurseRouter.route('/')
     next();
 })
 .get(cors.corsWithOptions,(req,res,next) => {
-    console.log(req.session)
-    if(req.session.loggedin){
-        const sqlInsert ="select * from Nurse;"
-        db.query(sqlInsert,(err,result)=>{
-            res.send(result)
-        })
-    }
-    else{
-        var err = new Error('You are not authenticated!');
-        err.status = 403;
-        return next(err);
-    }
+    const sqlInsert ="select * from Nurse;"
+    db.query(sqlInsert,(err,result)=>{
+        res.send(result)
+    })
 })
 .post(cors.corsWithOptions,(req,res,next) => {
     const name= req.body.newNurse.name

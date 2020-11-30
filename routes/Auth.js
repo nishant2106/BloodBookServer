@@ -1,18 +1,10 @@
 var express = require('express');
 const bodyParser = require('body-parser')
 var authRouter = express.Router();
-const cors = require('./cors')
+const cors = require('./cors');
 var db = require('../models/mysql').pool
 
-const maxAge = 2 * 24 * 60 * 60;
 
-const createToken = (id) => {
-
-    return jwt.sign({ id }, 'secretkey', {
-        expiresIn: maxAge
-    });
-
-}
 authRouter.use(bodyParser.json())
 /* GET users listing. */
 authRouter.route('/')
@@ -25,36 +17,20 @@ authRouter.route('/')
 .post(cors.corsWithOptions, function(req, res,next) {
 	var username = req.body.username;
 	var password = req.body.password;
-	if(!req.session.user){
-		if (username && password) {
-			db.query("SELECT * FROM Employee WHERE uname = ? AND password = ?;", [username, password], function(error, results, fields) {
-				if(error)
-					console.log(error)
-				if (results.length > 0) {
-					req.session.loggedin = true;
-					req.session.username = username;
-					res.sendStatus(200);
-				} else {
-					res.sendStatus(401);
-				}			
-				res.end();
-			});
-		} else {
-			res.send('Please enter Username and Password!');
-			res.end();
-		}
-	}
-	else {
-		res.send('Already logged in!');
+	if (username && password) {
+		db.query("SELECT * FROM Employee WHERE uname = ? AND password = ?;", [username, password], function(error, results, fields) {
+			if(error)
+				console.log(error)
+			if (results.length > 0) {
+				res.sendStatus(200);
+			} else {
+				res.sendStatus(401);
+			}			
+			// res.end();
+		});
+	} else {
+		res.send('Please enter Username and Password!');
 		res.end();
 	}
 });
-module.exports.login_post = async(req, res) => {
-
-    
-
-
-
-
-}
 module.exports=authRouter;
