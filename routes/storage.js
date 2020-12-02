@@ -16,7 +16,11 @@ storageRouter.route('/')
 .get(cors.corsWithOptions,(req,res,next) => {
     const sqlInsert ="select * from storage;"
     db.query(sqlInsert,(err,result)=>{
-        res.send(result)
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
     })
 })
 module.exports = storageRouter;

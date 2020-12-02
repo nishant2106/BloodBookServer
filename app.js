@@ -16,6 +16,8 @@ var campsRouter = require('./routes/camps');
 var eventRouter= require('./routes/event')
 var hospitalRouter = require('./routes/hospital')
 var donationRouter = require('./routes/donation')
+var rquestRouter = require('./routes/request');
+const requestRouter = require('./routes/request');
 var app = express();
 
 
@@ -41,6 +43,8 @@ app.use('/camps',campsRouter);
 app.use('/event',eventRouter);
 app.use('/hospital',hospitalRouter)
 app.use('/Donation',donationRouter)
+app.use('/request',requestRouter)
+
 
 
 // catch 404 and forward to error handler

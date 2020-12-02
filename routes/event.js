@@ -25,7 +25,11 @@ eventRouter.route('/')
     const color = req.body.color
     const sqlInsert ="INSERT INTO event(title,date,color)VALUES(?,?,?);"
     db.query(sqlInsert,[title,date,color],(err,result)=>{
-        console.log(result)
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
         if(err){
             console.log(err)
         }

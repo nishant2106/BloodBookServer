@@ -20,15 +20,14 @@ donationRouter.route('/')
     })
 })
 .post(cors.corsWithOptions,(req,res,next) => {
-    const id= req.body.newDonation.id
     const adhar_no= req.body.newDonation.adhar_no
     const component_name= req.body.newDonation.component_name
     const quantity= req.body.newDonation.quantity
     const nurse_id= req.body.newDonation.nurseid
     const d_date= req.body.newDonation.d_date
     console.log(req.body)
-    const sqlInsert ="INSERT INTO Donation(id,aadhar_no,component_name,qty,d_date,nurse_id)VALUES(?,?,?,?,?,?);"
-    db.query(sqlInsert,[id,adhar_no,component_name,quantity,d_date,nurse_id],(err,result)=>{
+    const sqlInsert ="INSERT INTO Donation(aadhar_no,component_name,qty,d_date,nurse_id)VALUES(?,?,?,?,?);"
+    db.query(sqlInsert,[adhar_no,component_name,quantity,d_date,nurse_id],(err,result)=>{
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
