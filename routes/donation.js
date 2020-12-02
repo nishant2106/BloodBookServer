@@ -38,8 +38,7 @@ donationRouter.route('/')
     })
 })
 .delete(cors.corsWithOptions,(req,res,next)=>{
-    const id='2'
-    const sqlInsert ="delete from Donation where id='?';;"
+    const sqlInsert ="delete from Donation where id='?';"
     db.query(sqlInsert,[id],(err,result)=>{
         if(err){
             console.log(err)

@@ -29,7 +29,11 @@ nurseRouter.route('/')
     console.log(req.body)
     const sqlInsert ="INSERT INTO Nurse(name,gender,city,mob_no,email,join_date)VALUES(?,?,?,?,?,?);"
     db.query(sqlInsert,[name,gender,address,mobile,email,joinDate],(err,result)=>{
-        console.log(result)
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
         if(err){
             console.log(err)
         }

@@ -31,6 +31,7 @@ hospitalRouter.route('/')
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
         }
         if(err){
             console.log(err)
@@ -68,14 +69,12 @@ hospitalRouter.route('/:h_id')
 })
 .post(cors.corsWithOptions,(req,res,next)=>{
     const h_id=req.params.h_id
-    const name=req.body.name
     const district=req.body.district
     const address = req.body.address
     const pincode =req.body.pincode
     const mob_no = req.body.mob_no
-    console.log(req.body)
-    const sqlInsert ="update Hospital set name=?,city=?,mob_no=?,district=? ,pincode=? where h_id=?;"
-    db.query(sqlInsert,[name,address,mob_no,district,pincode,h_id],(err,result)=>{
+    const sqlInsert ="update Hospital set city=?,mob_no=?,district=?,pincode=? where h_id=?;"
+    db.query(sqlInsert,[address,mob_no,district,pincode,h_id],(err,result)=>{
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
