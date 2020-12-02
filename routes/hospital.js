@@ -1,12 +1,12 @@
 var express = require('express');
 const bodyParser = require('body-parser')
-var nurseRouter = express.Router();
+var hospitalRouter = express.Router();
 const cors = require('./cors')
 var db = require('../models/mysql').pool
 
-nurseRouter.use(bodyParser.json())
+hospitalRouter.use(bodyParser.json())
 /* GET users listing. */
-nurseRouter.route('/')
+hospitalRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .all(cors.corsWithOptions,(req,res,next) => {
     res.statusCode = 200;
@@ -14,32 +14,44 @@ nurseRouter.route('/')
     next();
 })
 .get(cors.corsWithOptions,(req,res,next) => {
-    const sqlInsert ="select * from Nurse;"
+    const sqlInsert ="select * from Hospital;"
     db.query(sqlInsert,(err,result)=>{
         res.send(result)
     })
 })
 .post(cors.corsWithOptions,(req,res,next) => {
-    const name= req.body.newNurse.name
-    const email= req.body.newNurse.email
-    const mobile= req.body.newNurse.mobile
-    const gender= req.body.newNurse.gender
-    const address= req.body.newNurse.address
-    const joinDate= req.body.newNurse.joinDate
+    const name= req.body.newHospital.name
+    const mob_no_= req.body.newHospital.mob_no_
+    const district= req.body.newHospital.district
+    const city= req.body.newHospital.city
+    const pincode=req.body.newHospital.pincode
     console.log(req.body)
-    const sqlInsert ="INSERT INTO Nurse(name,gender,city,mob_no,email,join_date)VALUES(?,?,?,?,?,?);"
-    db.query(sqlInsert,[name,gender,address,mobile,email,joinDate],(err,result)=>{
-        console.log(result)
+    const sqlInsert ="INSERT INTO Hospital(name,mob_no,district,city,pincode)VALUES(?,?,?,?,?);"
+    db.query(sqlInsert,[name,mob_no_,district,city,pincode],(err,result)=>{
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+        }
         if(err){
             console.log(err)
         }
     })
 })
-nurseRouter.route('/:id')
+.delete(cors.corsWithOptions,(req,res,next)=>{
+    const id='2'
+    const sqlInsert ="delete from Hospital where h_id='?';;"
+    db.query(sqlInsert,[id],(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+    })
+})
+
+hospitalRouter.route('/:h_id')
 .options(cors.corsWithOptions)
 .get(cors.corsWithOptions,(req,res,next)=>{
-    const sqlExists ="select * from Nurse where nurse_id=?;"
-    db.query(sqlExists,[req.params.id],(err,result)=>{
+    const sqlExists ="select * from Hospital where h_id=?;"
+    db.query(sqlExists,[req.params.h_id],(err,result)=>{
         if(err){
             console.log(err)
         }
@@ -55,13 +67,15 @@ nurseRouter.route('/:id')
     })
 })
 .post(cors.corsWithOptions,(req,res,next)=>{
-    const id=req.params.id
+    const h_id=req.params.h_id
     const name=req.body.name
-    const email=req.body.email
+    const district=req.body.district
     const address = req.body.address
-    const mob = req.body.mob
-    const sqlInsert ="update Nurse set name=?,email=?,mob_no=?,city=? where nurse_id=?;"
-    db.query(sqlInsert,[name,email,mob,address,id],(err,result)=>{
+    const pincode =req.body.pincode
+    const mob_no = req.body.mob_no
+    console.log(req.body)
+    const sqlInsert ="update Hospital set name=?,city=?,mob_no=?,district=? ,pincode=? where h_id=?;"
+    db.query(sqlInsert,[name,address,mob_no,district,pincode,h_id],(err,result)=>{
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
@@ -73,10 +87,9 @@ nurseRouter.route('/:id')
     })
 })
 .delete(cors.corsWithOptions,(req,res,next)=>{
-    const id=req.params.id
-    console.log(req.params)
-    const sqlInsert ="delete from Nurse where nurse_id=?;"
-    db.query(sqlInsert,[id],(err,result)=>{
+    const h_id=req.params.h_id
+    const sqlInsert ="delete from Hospital where h_id=?;"
+    db.query(sqlInsert,[h_id],(err,result)=>{
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
@@ -87,4 +100,4 @@ nurseRouter.route('/:id')
         }
     })
 })
-module.exports = nurseRouter;
+module.exports = hospitalRouter;

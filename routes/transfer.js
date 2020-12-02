@@ -28,7 +28,10 @@ transferRouter.route('/')
     const status= req.body.status
     const sqlInsert ="INSERT INTO Transfer(h_id,t_date,component_name,Qty,blood_grp,status)VALUES(?,?,?,?,?,?);"
     db.query(sqlInsert,[hId,reqDate,component,quantity,bloodGroup,status],(err,result)=>{
-        console.log(result)
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+        }
         if(err){
             console.log(err)
         }

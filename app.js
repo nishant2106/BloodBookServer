@@ -14,6 +14,8 @@ var authRouter = require('./routes/Auth');
 var storageRouter = require('./routes/storage');
 var campsRouter = require('./routes/camps');
 var eventRouter= require('./routes/event')
+var hospitalRouter = require('./routes/hospital')
+var donationRouter = require('./routes/donation')
 var app = express();
 
 
@@ -37,6 +39,8 @@ app.use('/transfer',transferRouter);
 app.use('/Storage',storageRouter);
 app.use('/camps',campsRouter);
 app.use('/event',eventRouter);
+app.use('/hospital',hospitalRouter)
+app.use('/Donation',donationRouter)
 
 
 // catch 404 and forward to error handler

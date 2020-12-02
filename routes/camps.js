@@ -27,21 +27,68 @@ campsRouter.route('/')
     const donationamt= req.body.newCamp.donationamt
     const sqlInsert ="INSERT INTO campaigns(name,c_date,location,mob_no,createdon)VALUES(?,?,?,?,?);"
     db.query(sqlInsert,[name,cdate,address,mobile,donationamt],(err,result)=>{
-        console.log(result)
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
+        if(err){
+            console.log(err)
+        }
+    })
+})
+campsRouter.route('/:id')
+.options(cors.corsWithOptions)
+.get(cors.corsWithOptions,(req,res,next)=>{
+    const sqlExists ="select * from campaigns where camp_id=?;"
+    db.query(sqlExists,[req.params.id],(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
+        else{
+            res.statusCode = 203;
+            res.setHeader('Content-Type', 'text/plain');
+        }
+    })
+})
+.post(cors.corsWithOptions,(req,res,next)=>{
+    const id=req.params.id
+    const name=req.body.name
+    const cdate=req.body.cdate
+    const address = req.body.address
+    const mob = req.body.mob
+    const donationamt = req.body.donationamt
+    console.log(req.body)
+    const sqlInsert ="update campaigns set name=?,c_date=?,mob_no=?,location=?,createdon=? where camp_id=?;"
+    db.query(sqlInsert,[name,cdate,mob,address,donationamt,id],(err,result)=>{
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
         if(err){
             console.log(err)
         }
     })
 })
 .delete(cors.corsWithOptions,(req,res,next)=>{
-    const id='2'
-    const sqlInsert ="delete from campaigns where camp_id='?';;"
+    const id=req.params.id
+    const sqlInsert ="delete from campaigns where camp_id=?;"
     db.query(sqlInsert,[id],(err,result)=>{
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
         if(err){
             console.log(err)
         }
     })
 })
-
 
 module.exports = campsRouter;
