@@ -31,6 +31,7 @@ transferRouter.route('/')
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
         }
         if(err){
             console.log(err)

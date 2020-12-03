@@ -37,6 +37,25 @@ campsRouter.route('/')
         }
     })
 })
+campsRouter.route('/event')
+.options(cors.corsWithOptions)
+.get(cors.corsWithOptions,(req,res,next)=>{
+    const sqlExists ="select name as title,c_date as date from campaigns;"
+    db.query(sqlExists,[req.params.id],(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        if(result){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
+        }
+        else{
+            res.statusCode = 203;
+            res.setHeader('Content-Type', 'text/plain');
+        }
+    })
+})
 campsRouter.route('/:id')
 .options(cors.corsWithOptions)
 .get(cors.corsWithOptions,(req,res,next)=>{

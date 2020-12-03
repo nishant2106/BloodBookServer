@@ -25,12 +25,12 @@ donationRouter.route('/')
     const quantity= req.body.newDonation.quantity
     const nurse_id= req.body.newDonation.nurseid
     const d_date= req.body.newDonation.d_date
-    console.log(req.body)
     const sqlInsert ="INSERT INTO Donation(aadhar_no,component_name,qty,d_date,nurse_id)VALUES(?,?,?,?,?);"
     db.query(sqlInsert,[adhar_no,component_name,quantity,d_date,nurse_id],(err,result)=>{
         if(result){
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
+            res.send(result)
         }
         if(err){
             console.log(err)
@@ -48,7 +48,7 @@ donationRouter.route('/')
 donationRouter.route('/Donor')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(cors.corsWithOptions,(req,res,next)=>{
-    const sqlInsert ="select aadhar_no,name from Donor;"
+    const sqlInsert ="select aadhar_no,name from Donor where donationDate < (sysdate() - INTERVAL 3 month);"
     db.query(sqlInsert,(err,result)=>{
         res.send(result)
     }) 
