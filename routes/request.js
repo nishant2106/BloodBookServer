@@ -20,7 +20,7 @@ requestRouter.route('/:address/:blood_grp')
     const district=req.params.address
     const blood_grp=req.params.blood_grp
     console.log(req.params)
-    const sqlExists ="select * from Donor where district='?' and blood_grp='?';"
+    const sqlExists ="select * from Donor where district=? and blood_grp=?;"
     db.query(sqlExists,[district ,blood_grp],(err,result)=>{
         if(err){
             console.log(err)
