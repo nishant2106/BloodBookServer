@@ -1,8 +1,8 @@
-const mysql = require('mysql')
-const pool = mysql.createPool({
-    host:'localhost',
-    user:'nishant',
-    password:"Nish@123",
-    database:"Blood_Bank_System"
-  })
-exports.pool=pool
+const Pool = require("pg").Pool;
+const pool = new Pool({
+  host: "dpg-ccmtac9a6gdh5kdkpfkg-a.singapore-postgres.render.com",
+  user: "bloodbanksystem_user",
+  password: "J9KfmP7veTQ9v1EHMcApqnmEDSTgnVlX",
+  database: "bloodbanksystem",
+});
+exports.pool = pool;
