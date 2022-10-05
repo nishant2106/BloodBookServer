@@ -6,6 +6,7 @@ var db = require("../models/mysql");
 
 eventRouter.use(bodyParser.json());
 /* GET users listing. */
+/*get events. */
 eventRouter
   .route("/")
   .options(cors.corsWithOptions, (req, res) => {
