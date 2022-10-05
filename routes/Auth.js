@@ -2,7 +2,7 @@ var express = require("express");
 const bodyParser = require("body-parser");
 var authRouter = express.Router();
 const cors = require("./cors");
-var db = require("../models/mysql").pool;
+var db = require("../models/mysql");
 
 authRouter.use(bodyParser.json());
 /* GET users listing. */

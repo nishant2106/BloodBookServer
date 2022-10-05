@@ -2,7 +2,7 @@ var express = require("express");
 const bodyParser = require("body-parser");
 var campsRouter = express.Router();
 const cors = require("./cors");
-var db = require("../models/mysql").pool;
+var db = require("../models/mysql");
 
 campsRouter.use(bodyParser.json());
 /* GET users listing. */
@@ -17,6 +17,7 @@ campsRouter
     next();
   })
   .get(cors.corsWithOptions, (req, res, next) => {
+    console.log(req);
     const sqlInsert = "select * from campaigns;";
     db.query(sqlInsert, (err, result) => {
       console.log("result", result);
